@@ -64,6 +64,7 @@ wss.on("connection", function connection(ws, req) {
     ws.send(
       JSON.stringify({ error: "Ошибка при подключении к удаленному серверу" })
     );
+    //
   });
 
   wsClient.on("message", function (message) {
