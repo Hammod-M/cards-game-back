@@ -16,7 +16,7 @@ wss.on("connection", function connection(ws, req) {
   console.log("Новый клиент подключился");
 
   let wsClient = null;
-
+  //
   ws.on("message", function incoming(message) {
     if (wsClient && wsClient.readyState === WebSocket.OPEN) {
       wsClient.send(message);
