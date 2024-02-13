@@ -16,7 +16,7 @@ wss.on("connection", function connection(ws, req) {
   console.log("Новый клиент подключился");
 
   let wsClient = null;
-  //
+
   ws.on("message", function incoming(message) {
     if (wsClient && wsClient.readyState === WebSocket.OPEN) {
       wsClient.send(message);
@@ -55,8 +55,12 @@ wss.on("connection", function connection(ws, req) {
   });
 
   wsClient.on("open", function () {
-    ws.send("success");
-    console.log("Соединение с удаленным сервером установлено");
+    setTimeout(() => {
+      if (wsClient.readyState === WebSocket.OPEN) {
+        ws.send("success");
+        console.log("Соединение с удаленным сервером установлено");
+      } else ws.send("error");
+    }, 1000);
   });
 
   wsClient.on("error", function (error) {
@@ -69,7 +73,6 @@ wss.on("connection", function connection(ws, req) {
   wsClient.on("message", function (message) {
     const messageString = message.toString("utf-8");
     console.log("Получено сообщение от удаленного сервера:", messageString);
-    // Отправляем сообщение клиенту в формате JSON
     ws.send(messageString);
   });
 });
